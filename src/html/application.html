@@ -5,19 +5,18 @@
 	<script type="text/javascript" language="javascript" src="../js/urlService.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/tinyUrl.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/application.js"></script>
+	<link rel=stylesheet type="text/css" href="../css/app.css"  />
 </head>
-	<body>
+	<body style="width:43em">
 		<div>
-			Description <input type="text" id="descriptionInput" placeholder="enter some description" maxlength="50" size="35"/></br>
-			Tags <input type="text" id="tagsInput" placeholder="enter comma seperated tags" maxlength="50" size="35"/></br>
-			<input type="submit" id="submitTagsButton" value="Tag this"/>
+			<span> Description </span><span><input type="text" id="descriptionInput" placeholder="enter some description" maxlength="50" class="textbox"/></span>
+			<span> Tags </span> <span> 	<input type="text" id="tagsInput" placeholder="enter comma seperated tags" maxlength="50" class="textbox"/> </span>
+			<span><input type="submit" id="submitTagsButton" value="Tag this"/> </span>
 		</div>
 		<div>
-			<div>
-				<input type="text" id="searchInputTags" placeholder="enter comma seperated tags to search" maxlength="50" size="35"/></br>
-				<input type="submit" id="searchButton" value="Search"/>
-			</div>
-			<div id="searchResults" />
+			<span><input type="text" id="searchInputTags" placeholder="enter comma seperated tags to search" maxlength="50" class="textbox"/></span>
+			<span><input type="submit" id="searchButton" value="Search"/></span>
+			<span><div id="searchResults"/></span>
 		</div>
 	</body>
 	<script type="text/javascript">
