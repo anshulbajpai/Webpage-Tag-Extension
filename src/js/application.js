@@ -60,8 +60,14 @@ var Application = Class.create({
 	_searchTags : function(){
 		var that = this;
 		this._urlService.searchByTags(searchInputTags.strippedTagArray(),function(tagsData){
-			that._renderResult(tagsData);
+			if(tagsData.length > 0)
+				that._renderResult(tagsData);
+			else
+				that._showNoResults();
 		});
+	},
+	_showNoResults : function(){
+		searchResults.innerHTML = "Sorry, no matching urls found!!"
 	},
 	_renderResult : function(tagsData){
 		var tableHeader = '<table><tr><th>Url</th><th>Description</th><th>Matching Tags</th></tr>';
