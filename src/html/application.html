@@ -1,0 +1,29 @@
+<html>
+<head>
+	<script type="text/javascript" language="javascript" src="../js/prototype.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/dao.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/urlService.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/tinyUrl.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/application.js"></script>
+</head>
+	<body>
+		<div>
+			Description <input type="text" id="descriptionInput" placeholder="enter some description" maxlength="50" size="35"/></br>
+			Tags <input type="text" id="tagsInput" placeholder="enter comma seperated tags" maxlength="50" size="35"/></br>
+			<input type="submit" id="submitTagsButton" value="Tag this"/>
+		</div>
+		<div>
+			<div>
+				<input type="text" id="searchInputTags" placeholder="enter comma seperated tags to search" maxlength="50" size="35"/></br>
+				<input type="submit" id="searchButton" value="Search"/>
+			</div>
+			<div id="searchResults" />
+		</div>
+	</body>
+	<script type="text/javascript">
+        document.observe("dom:loaded", function(){
+            loadApplication();       
+	    });
+    </script>
+</html>
+
