@@ -10,11 +10,14 @@ var Tags = {
 	},
 };
 
-var TagData = Class.create({
+var SearchTagDto = Class.create({
 	initialize : function(url, description, matchingTags){
 		this.url = url;
 		this.description = description;
 		this.matchingTags = matchingTags;
+	},
+	updateTags : function(tag){
+		this.matchingTags += ',' + tag;
 	},
 });
 
@@ -59,9 +62,9 @@ var Application = Class.create({
 	},
 	_searchTags : function(){
 		var that = this;
-		this._urlService.searchByTags(searchInputTags.strippedTagArray(),function(tagsData){
-			if(tagsData.length > 0)
-				that._renderResult(tagsData);
+		this._urlService.searchByTags(searchInputTags.strippedTagArray(),function(searchTagsDto){
+			if(searchTagsDto.length > 0)
+				that._renderResult(searchTagsDto);
 			else
 				that._showNoResults();
 		});
@@ -69,14 +72,14 @@ var Application = Class.create({
 	_showNoResults : function(){
 		searchResults.innerHTML = "Sorry, no matching urls found!!"
 	},
-	_renderResult : function(tagsData){
+	_renderResult : function(searchTagsDto){
 		var tableHeader = '<table><tr><th>Url</th><th>Description</th><th>Matching Tags</th></tr>';
 		var tableFooter = '</table>';
 		var resultRowTemplate = '<tr><td><a href="{0}" onclick="application.openTab(\'{0}\')">{0}</a></td><td>{1}</td><td>{2}</td></tr>';
 		var resultRows = "";
-		tagsData.each(function(tagData){
+		searchTagsDto.each(function(searchTagDto){
 			var template = resultRowTemplate;
-			resultRows += template.replace(/\{0\}/gi,tagData.url).replace(/\{1\}/gi,tagData.description).replace(/\{2\}/gi,tagData.matchingTags);
+			resultRows += template.replace(/\{0\}/gi,searchTagDto.url).replace(/\{1\}/gi,searchTagDto.description).replace(/\{2\}/gi,searchTagDto.matchingTags);
 		});
 		searchResults.innerHTML = tableHeader + resultRows + tableFooter;
 	},

@@ -4,31 +4,40 @@ Array.prototype.withoutArray = function(otherArray){
 	return result;
 };
 
+var FindUrlDto = Class.create({
+	initialize : function(id,description,tag){
+		this.id = id;
+		this.description = description;
+		this.tag = tag;
+	},
+});
+
 var UrlService = Class.create({	
 	initialize : function(dao){
 		this._dao = dao;
 	},
 	saveOrUpdate : function(url, description, tags){
 		var that = this;
-		this._dao.findUrl(url,function (rows){
-			if(rows.length > 0)
-				that._update(rows, url, description, tags);
+		this._dao.findUrl(url,function (findUrlDtos){
+			if(findUrlDtos.length > 0)
+				that._update(findUrlDtos, url, description, tags);
 			else
 				that._insert(url, description, tags)
 			});
 	},
-	_update : function(rows, url, description, tags){
-		if(description != rows.item(0).description)
+	_update : function(findUrlDtos, url, description, tags){
+		var firstDto = findUrlDtos.first();
+		if(description != firstDto.description)
 			this._dao.updateDescription(description, url);
-		var tagsFromDb = this._tagsFromDb(rows);
+		var tagsFromDb = this._tagsFromDb(findUrlDtos);
 		var tagsToKeep = tags.intersect(tagsFromDb);
 		this._deleteOldTags(tagsFromDb.withoutArray(tagsToKeep));
-		this._insertNewTags(tags.withoutArray(tagsToKeep),rows.item(0).id);
+		this._insertNewTags(tags.withoutArray(tagsToKeep),firstDto.id);
 	},
-	_tagsFromDb : function(rows){
+	_tagsFromDb : function(findUrlDtos){
 		var tagsFromDb = new Array();
-		for(var i =0; i < rows.length; i++){
-			tagsFromDb.push(rows.item(i).tag);
+		for(var i =0; i < findUrlDtos.length; i++){
+			tagsFromDb.push(findUrlDtos[i].tag);
 		}
 		return tagsFromDb;
 	},
@@ -53,10 +62,10 @@ var UrlService = Class.create({
 			});
 		});
 	},
-	searchByUrl : function(url,callback){
-		this._dao.searchByUrl(url,callback);
+	searchByUrl : function(url,onSearch){
+		this._dao.searchByUrl(url,onSearch);
 	},
-	searchByTags : function(tags,callback){
-		this._dao.searchByTags(tags,callback);
+	searchByTags : function(tags,onSearch){
+		this._dao.searchByTags(tags,onSearch);
 	},
 });

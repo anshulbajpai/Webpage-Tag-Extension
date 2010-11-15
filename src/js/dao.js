@@ -9,7 +9,12 @@ var Dao = Class.create({
 	findUrl : function(url, onSelect){
 		this._db.transaction(function (tx) {
 			tx.executeSql('SELECT u.id, u.description,t.tag from urls u join tags t on u.id = t.urlid where url = ?', [url], function (tx, result){
-				onSelect(result.rows);
+				var findUrlDtos = new Array();
+				for(var i =0; i < result.rows.length; i++){	
+					var row = result.rows.item(i);
+					findUrlDtos.push(new FindUrlDto(row.id,row.description,row.tag));
+				}
+				onSelect(findUrlDtos);
 			});
 		});	
 	},
@@ -40,7 +45,7 @@ var Dao = Class.create({
 			});
 		});	
 	},
-	searchByUrl : function(url,callback){
+	searchByUrl : function(url,onSearch){
 		this._db.transaction(function (tx) {
 			tx.executeSql('select u.description, t.tag from urls u join tags t on u.id = t.urlid where url = ?',[url],function(tx,result){
 				if(result.rows.length > 0){
@@ -49,36 +54,36 @@ var Dao = Class.create({
 					for(var i =0; i < result.rows.length; i++){
 						tags += result.rows.item(i).tag + ",";
 					}
-					callback(result.rows.item(0).description,tags.substr(0,tags.lastIndexOf(",")));
+					onSearch(result.rows.item(0).description,tags.substr(0,tags.lastIndexOf(",")));
 				}
 			});
 		});	
 	},
-	searchByTags : function(tags,callback){
+	searchByTags : function(tags,onSearch){
 		var that = this;
 		this._db.transaction(function (tx) {
 			tx.executeSql(that._searchTagQuery(tags.length),tags,function(tx,result){
-				var tagsData = new Array();
+				var searchTagsDto = new Array();
 				for(var i =0; i < result.rows.length; i++){	
 					var row = result.rows.item(i);
-					var matchingTagData = that._matchingTagData(tagsData, row.url);
-					if(matchingTagData != null)
-						matchingTagData.matchingTags += ',' + row.tag;
+					var matchingSearchTagDto = that._matchingSearchTagDto(searchTagsDto, row.url);
+					if(matchingSearchTagDto != null)
+						matchingSearchTagDto.updateTags(row.tag);
 					else	
-						tagsData.push(new TagData(row.url,row.description,row.tag));
+						searchTagsDto.push(new SearchTagDto(row.url,row.description,row.tag));
 				}
-				callback(tagsData);
+				onSearch(searchTagsDto);
 			});
 		});	
 	},
-	_matchingTagData : function(tagsData, url){
-		var matchingTagData;
-		tagsData.each(function(tag){
-			if(tag.url == url){
-				matchingTagData =  tag;
+	_matchingSearchTagDto : function(searchTagsDto, url){
+		var matchingSearchTagDto;
+		searchTagsDto.each(function(searchTagDto){
+			if(searchTagDto.url == url){
+				matchingSearchTagDto =  searchTagDto;
 			}
 		});
-		return matchingTagData;
+		return matchingSearchTagDto;
 	},
 	_searchTagQuery : function(tagsCount){
 		var query= 'select u.url, u.description, t.tag from urls u join tags t on u.id = t.urlid where t.tag in (';
