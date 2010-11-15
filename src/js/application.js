@@ -23,9 +23,8 @@ var SearchTagDto = Class.create({
 
 var application;
 var Application = Class.create({
-	initialize : function(urlService,tinyUrl){
+	initialize : function(urlService){
 		this._urlService = urlService;
-		this._tinyUrl = tinyUrl;
 		this._addExtensions();
 		this._hookEvents();
 	},
@@ -45,7 +44,7 @@ var Application = Class.create({
 	populateValues : function(){
 		var that = this;
 		chrome.tabs.getSelected(null,function (tab){
-			that._tinyUrl.shorten(tab.url,function(shortenedUrl){
+			that._urlService.shortenUrl(tab.url,function(shortenedUrl){
 				that._url = shortenedUrl;
 				that._populateDescriptionAndTags(shortenedUrl);
 			});
@@ -90,8 +89,8 @@ var Application = Class.create({
 
 function loadApplication(){
 	var dao = new Dao();
-	var urlService = new UrlService(dao);
 	var tinyUrl = new TinyUrl();
-	application = new Application(urlService,tinyUrl);
+	var urlService = new UrlService(tinyUrl,dao);
+	application = new Application(urlService);
 	application.populateValues();
 }

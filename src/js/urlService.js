@@ -13,7 +13,8 @@ var FindUrlDto = Class.create({
 });
 
 var UrlService = Class.create({	
-	initialize : function(dao){
+	initialize : function(tinyUrl,dao){
+		this._tinyUrl = tinyUrl;
 		this._dao = dao;
 	},
 	saveOrUpdate : function(url, description, tags){
@@ -67,5 +68,8 @@ var UrlService = Class.create({
 	},
 	searchByTags : function(tags,onSearch){
 		this._dao.searchByTags(tags,onSearch);
+	},
+	shortenUrl : function(url, afterShorten){
+		this._tinyUrl.shorten(url,afterShorten);
 	},
 });
