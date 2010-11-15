@@ -10,7 +10,7 @@ var UrlService = Class.create({
 	},
 	saveOrUpdate : function(url, description, tags){
 		var that = this;
-		this._dao.selectUrl(url,function (rows){
+		this._dao.findUrl(url,function (rows){
 			if(rows.length > 0)
 				that._update(rows, url, description, tags);
 			else
@@ -53,10 +53,10 @@ var UrlService = Class.create({
 			});
 		});
 	},
-	getUrlData : function(url,callback){
-		this._dao.getUrlData(url,callback);
+	searchByUrl : function(url,callback){
+		this._dao.searchByUrl(url,callback);
 	},
-	getTagsData : function(tags,callback){
-		this._dao.getTagData(tags,callback);
+	searchByTags : function(tags,callback){
+		this._dao.searchByTags(tags,callback);
 	},
 });

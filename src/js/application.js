@@ -52,14 +52,14 @@ var Application = Class.create({
 		this._urlService.saveOrUpdate(url,descriptionInput.value.strip(),tagsInput.strippedTagArray());
 	},
 	_populateDescriptionAndTags : function(url){
-		this._urlService.getUrlData(url, function(description,tags){
+		this._urlService.searchByUrl(url, function(description,tags){
 			descriptionInput.value = description;
 			tagsInput.value = tags;
 		});		
 	},
 	_searchTags : function(){
 		var that = this;
-		this._urlService.getTagsData(searchInputTags.strippedTagArray(),function(tagsData){
+		this._urlService.searchByTags(searchInputTags.strippedTagArray(),function(tagsData){
 			that._renderResult(tagsData);
 		});
 	},

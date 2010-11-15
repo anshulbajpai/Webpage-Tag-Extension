@@ -6,7 +6,7 @@ var Dao = Class.create({
 			tx.executeSql('CREATE TABLE IF NOT EXISTS tags (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, urlid INTEGER NOT NULL, tag TEXT)');
 		});
 	},
-	selectUrl : function(url, onSelect){
+	findUrl : function(url, onSelect){
 		this._db.transaction(function (tx) {
 			tx.executeSql('SELECT u.id, u.description,t.tag from urls u join tags t on u.id = t.urlid where url = ?', [url], function (tx, result){
 				onSelect(result.rows);
@@ -40,7 +40,7 @@ var Dao = Class.create({
 			});
 		});	
 	},
-	getUrlData : function(url,callback){
+	searchByUrl : function(url,callback){
 		this._db.transaction(function (tx) {
 			tx.executeSql('select u.description, t.tag from urls u join tags t on u.id = t.urlid where url = ?',[url],function(tx,result){
 				if(result.rows.length > 0){
@@ -54,18 +54,31 @@ var Dao = Class.create({
 			});
 		});	
 	},
-	getTagData : function(tags,callback){
+	searchByTags : function(tags,callback){
 		var that = this;
 		this._db.transaction(function (tx) {
 			tx.executeSql(that._searchTagQuery(tags.length),tags,function(tx,result){
 				var tagsData = new Array();
 				for(var i =0; i < result.rows.length; i++){	
 					var row = result.rows.item(i);
-					tagsData.push(new TagData(row.url,row.description,row.tag));
+					var matchingTagData = that._matchingTagData(tagsData, row.url);
+					if(matchingTagData != null)
+						matchingTagData.matchingTags += ',' + row.tag;
+					else	
+						tagsData.push(new TagData(row.url,row.description,row.tag));
 				}
 				callback(tagsData);
 			});
 		});	
+	},
+	_matchingTagData : function(tagsData, url){
+		var matchingTagData;
+		tagsData.each(function(tag){
+			if(tag.url == url){
+				matchingTagData =  tag;
+			}
+		});
+		return matchingTagData;
 	},
 	_searchTagQuery : function(tagsCount){
 		var query= 'select u.url, u.description, t.tag from urls u join tags t on u.id = t.urlid where t.tag in (';
