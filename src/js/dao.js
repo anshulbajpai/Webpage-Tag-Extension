@@ -1,6 +1,6 @@
 var Dao = Class.create({
 	initialize : function(){
-		this._db = openDatabase('mydb1', '1', 'tags database', 1 * 1024 * 1024);
+		this._db = openDatabase('tagsdb', '0.1', 'tags database', 1 * 1024 * 1024);
 		this._db.transaction(function (tx) {
 			tx.executeSql('CREATE TABLE IF NOT EXISTS urls (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, url TEXT UNIQUE NOT NULL, description TEXT)');
 			tx.executeSql('CREATE TABLE IF NOT EXISTS tags (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, urlid INTEGER NOT NULL, tag TEXT)');
@@ -55,8 +55,9 @@ var Dao = Class.create({
 		});	
 	},
 	getTagData : function(tags,callback){
+		var that = this;
 		this._db.transaction(function (tx) {
-			tx.executeSql('select u.url, u.description, t.tag from urls u join tags t on u.id = t.urlid where t.tag in (?)',[tags],function(tx,result){
+			tx.executeSql(that._searchTagQuery(tags.length),tags,function(tx,result){
 				var tagsData = new Array();
 				for(var i =0; i < result.rows.length; i++){	
 					var row = result.rows.item(i);
@@ -65,5 +66,12 @@ var Dao = Class.create({
 				callback(tagsData);
 			});
 		});	
+	},
+	_searchTagQuery : function(tagsCount){
+		var query= 'select u.url, u.description, t.tag from urls u join tags t on u.id = t.urlid where t.tag in (';
+		for(var i = 0; i < tagsCount; i++){
+			query += '?,'
+		}
+		return query.substr(0,query.lastIndexOf(',')) + ')';
 	},
 });

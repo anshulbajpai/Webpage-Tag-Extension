@@ -8,15 +8,6 @@ var Tags = {
 		})
 		return tags;
 	},
-	strippedTags : function(){
-		var tags = "";
-		this.value.split(",").each(function(tag){
-			var strippedTag = tag.strip();
-			if(strippedTag != "")
-				tags +=  strippedTag + ",";
-		})
-		return tags.substr(0,tags.lastIndexOf(","));
-	},
 };
 
 var TagData = Class.create({
@@ -68,7 +59,7 @@ var Application = Class.create({
 	},
 	_searchTags : function(){
 		var that = this;
-		this._urlService.getTagsData(searchInputTags.strippedTags(),function(tagsData){
+		this._urlService.getTagsData(searchInputTags.strippedTagArray(),function(tagsData){
 			that._renderResult(tagsData);
 		});
 	},
