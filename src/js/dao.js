@@ -97,10 +97,10 @@ var Dao = Class.create({
 		for(var i = 0; i < rows.length; i++){
 			var row = rows.item(i);
 			var urlId = row.urlid;
-			if(map[urlId] == null)
-				map[urlId] = row.tag;
-			else
+			if(map[urlId])
 				map[urlId] = map[urlId] + "," + row.tag;
+			else
+				map[urlId] = row.tag;
 		}
 		return map;
 	},
@@ -115,5 +115,42 @@ var Dao = Class.create({
 			baseQuery += '?,'
 		}
 		return baseQuery.substr(0,baseQuery.lastIndexOf(',')) + ')';
+	},
+	export : function(onExport){
+		var that = this;
+		this._exportTable("urls","",function(exportSql){
+			that._exportTable("tags",exportSql,onExport);
+		});
+	},
+	_exportTable : function(table, exportSql, onExport){
+		this._db.transaction(function (tx) {
+			tx.executeSql('select * from urls',[],function(tx,result){
+				for (var i = 0; i < result.rows.length; i++) {
+					var row = result.rows.item(i);
+					var fields = [];
+					var values = [];
+					for (col in row) {
+						fields.push(col);
+						values.push('"' + row[col] + '"');
+					}
+					exportSql += "INSERT INTO " + table + "(" + fields.join(",") + ") VALUES (" + values.join(",") + ");";
+				}
+				onExport(exportSql);
+			});
+		});
+	},
+	import : function(sqlInserts){
+		var that = this;
+		this._db.transaction(function (tx) {
+			that._clearDb(tx);
+			sqlInserts.each(function(sqlInsert){
+				tx.executeSql(sqlInsert,[]);
+			});
+		});
+	},
+	_clearDb : function(tx){
+		tx.executeSql('delete from tags',[]);
+		tx.executeSql('delete from urls',[]);
+		tx.executeSql('delete from sqlite_sequence',[]);
 	},
 });

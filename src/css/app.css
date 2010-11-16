@@ -1,11 +1,18 @@
 .textbox{
 	width : 20em;
 }
+.longtextbox{
+	width : 46em;
+}
 body{
 	background: #cadef4;
 }
-.container {
+.rightcontainer {
 	float: right;
+}
+.leftContainer{
+	float : left;
+	padding-left: 10px;
 }
 .button{
 	width : 5em;

@@ -33,6 +33,12 @@ var Application = Class.create({
 		searchButton.observe('click',function(event){
 			that._searchTags();
 		});
+		exportButton.observe('click',function(event){
+			that._export();
+		});
+		importButton.observe('click',function(event){
+			that._import();
+		});
 	},
 	_addExtensions : function(){
 		Object.extend(tagsInput,Tags);
@@ -81,6 +87,14 @@ var Application = Class.create({
 	},
 	openTab : function(url){
 		chrome.tabs.create({"url":url, "selected":false});
+	},
+	_export : function(){
+		this._urlService.export(function(exportSql){
+			exportOutput.value = exportSql;
+		});
+	},
+	_import : function(){
+		this._urlService.import(importInput.value);
 	},
 });
 

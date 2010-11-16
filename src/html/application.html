@@ -9,19 +9,33 @@
 </head>
 	<body style="width:43em">
 		<div>
-			<span class="container"> 
+			<span class="rightcontainer"> 
 				Description <input type="text" id="descriptionInput" placeholder="enter some description" maxlength="50" class="textbox"/>
 				Tags  	   <input type="text" id="tagsInput" placeholder="enter comma seperated tags" maxlength="50" class="textbox"/> 
 				<input type="submit" id="submitTagsButton" class="button" value="Tag this"/>
 			</span>
 		</div>
 		<div>
-			<span class="container">
+			<span class="rightcontainer">
 				<input type="text" id="searchInputTags" placeholder="enter comma seperated tags to search" maxlength="50" class="textbox"/>
 				<input type="submit" id="searchButton" class="button" value="Search"/>
 			</span>
 		</div>
-		<div id="searchResults"/>
+		<div id="searchResults"></div>
+		<div class="leftContainer">
+			<div>
+				<span>
+					<input type="submit" id="exportButton" value="Export Tags"/>
+					<input type="text" id="exportOutput" class="longtextbox"/> 
+				</span>
+			</div>
+			<div>
+				<span>
+					<input type="text" id="importInput" placeholder="enter sql script" class="longtextbox"/> 
+					<input type="submit" id="importButton" value="Import Tags"/>
+				</span>
+			</div>
+		</div>
 	</body>
 	<script type="text/javascript">
         document.observe("dom:loaded", function(){

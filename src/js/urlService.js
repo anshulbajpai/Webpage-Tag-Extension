@@ -72,4 +72,11 @@ var UrlService = Class.create({
 	shortenUrl : function(url, afterShorten){
 		this._tinyUrl.shorten(url,afterShorten);
 	},
+	export : function(onExport){
+		this._dao.export(onExport);
+	},
+	import : function(sqlInserts){
+		var sqlInsertsArray = sqlInserts.split(';')
+		this._dao.import(sqlInsertsArray.without(sqlInsertsArray.last()));
+	},
 });
