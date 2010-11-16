@@ -16,9 +16,6 @@ var SearchTagDto = Class.create({
 		this.description = description;
 		this.matchingTags = matchingTags;
 	},
-	updateTags : function(tag){
-		this.matchingTags += ',' + tag;
-	},
 });
 
 var application;

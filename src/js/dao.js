@@ -63,33 +63,57 @@ var Dao = Class.create({
 		var that = this;
 		this._db.transaction(function (tx) {
 			tx.executeSql(that._searchTagQuery(tags.length),tags,function(tx,result){
-				var searchTagsDto = new Array();
-				for(var i =0; i < result.rows.length; i++){	
-					var row = result.rows.item(i);
-					var matchingSearchTagDto = that._matchingSearchTagDto(searchTagsDto, row.url);
-					if(matchingSearchTagDto != null)
-						matchingSearchTagDto.updateTags(row.tag);
-					else	
-						searchTagsDto.push(new SearchTagDto(row.url,row.description,row.tag));
-				}
-				onSearch(searchTagsDto);
+				that._getTagsForUrl(result.rows, onSearch)
 			});
 		});	
 	},
-	_matchingSearchTagDto : function(searchTagsDto, url){
-		var matchingSearchTagDto;
-		searchTagsDto.each(function(searchTagDto){
-			if(searchTagDto.url == url){
-				matchingSearchTagDto =  searchTagDto;
-			}
+	_getTagsForUrl : function(urlsData, onSearch){
+		var that = this;
+		var urlIds = this._createUrlsIds(urlsData);
+		this._db.transaction(function (tx) {
+			tx.executeSql(that._getTagForUrlQuery(urlIds.length),urlIds,function(tx,result){
+				onSearch(that._createSearchTagsDato(result.rows,urlsData));
+			});
 		});
-		return matchingSearchTagDto;
+	},
+	_createUrlsIds : function(urlsData){
+		var urlIds = new Array();
+		for(var i=0; i < urlsData.length; i++){
+			urlIds.push(urlsData.item(i).id);
+		}
+		return urlIds;
+	},
+	_createSearchTagsDato : function(rows,urlsData){
+		var searchTagsDto = new Array();
+		var urlTagMap = this._getUrlTagMap(rows);
+		for(var i =0;i < urlsData.length;i++){
+			var urlData = urlsData.item(i);
+			searchTagsDto.push(new SearchTagDto(urlData.url,urlData.description,urlTagMap[urlData.id]));
+		}
+		return searchTagsDto;
+	},
+	_getUrlTagMap : function(rows){
+		var map = {};
+		for(var i = 0; i < rows.length; i++){
+			var row = rows.item(i);
+			var urlId = row.urlid;
+			if(map[urlId] == null)
+				map[urlId] = row.tag;
+			else
+				map[urlId] = map[urlId] + "," + row.tag;
+		}
+		return map;
+	},
+	_getTagForUrlQuery : function(urlCount){
+		return this._createInQuery('select urlid, tag from tags where urlid in (', urlCount);
 	},
 	_searchTagQuery : function(tagsCount){
-		var query= 'select u.url, u.description, t.tag from urls u join tags t on u.id = t.urlid where t.tag in (';
-		for(var i = 0; i < tagsCount; i++){
-			query += '?,'
+		return this._createInQuery('select distinct u.id, u.url, u.description from urls u join tags t on u.id = t.urlid where t.tag in (', tagsCount);
+	},
+	_createInQuery : function(baseQuery, count){
+		for(var i = 0; i < count; i++){
+			baseQuery += '?,'
 		}
-		return query.substr(0,query.lastIndexOf(',')) + ')';
+		return baseQuery.substr(0,baseQuery.lastIndexOf(',')) + ')';
 	},
 });
