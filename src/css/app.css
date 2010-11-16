@@ -4,3 +4,9 @@
 body{
 	background: #cadef4;
 }
+.container {
+	float: right;
+}
+.button{
+	width : 5em;
+}

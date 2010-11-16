@@ -4,7 +4,7 @@ var Tags = {
 		this.value.split(",").each(function(tag){
 			var strippedTag = tag.strip();
 			if(strippedTag != "")
-				tags.push(strippedTag);
+				tags.push(strippedTag.toLowerCase());
 		})
 		return tags;
 	},
@@ -51,7 +51,7 @@ var Application = Class.create({
 		});
 	},	
 	_saveTags : function(url){
-		this._urlService.saveOrUpdate(url,descriptionInput.value.strip(),tagsInput.strippedTagArray());
+		this._urlService.saveOrUpdate(url,descriptionInput.value.toLowerCase().strip(),tagsInput.strippedTagArray());
 	},
 	_populateDescriptionAndTags : function(url){
 		this._urlService.searchByUrl(url, function(description,tags){

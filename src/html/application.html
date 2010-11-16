@@ -9,15 +9,19 @@
 </head>
 	<body style="width:43em">
 		<div>
-			<span> Description </span><span><input type="text" id="descriptionInput" placeholder="enter some description" maxlength="50" class="textbox"/></span>
-			<span> Tags </span> <span> 	<input type="text" id="tagsInput" placeholder="enter comma seperated tags" maxlength="50" class="textbox"/> </span>
-			<span><input type="submit" id="submitTagsButton" value="Tag this"/> </span>
+			<span class="container"> 
+				Description <input type="text" id="descriptionInput" placeholder="enter some description" maxlength="50" class="textbox"/>
+				Tags  	   <input type="text" id="tagsInput" placeholder="enter comma seperated tags" maxlength="50" class="textbox"/> 
+				<input type="submit" id="submitTagsButton" class="button" value="Tag this"/>
+			</span>
 		</div>
 		<div>
-			<span><input type="text" id="searchInputTags" placeholder="enter comma seperated tags to search" maxlength="50" class="textbox"/></span>
-			<span><input type="submit" id="searchButton" value="Search"/></span>
-			<span><div id="searchResults"/></span>
+			<span class="container">
+				<input type="text" id="searchInputTags" placeholder="enter comma seperated tags to search" maxlength="50" class="textbox"/>
+				<input type="submit" id="searchButton" class="button" value="Search"/>
+			</span>
 		</div>
+		<div id="searchResults"/>
 	</body>
 	<script type="text/javascript">
         document.observe("dom:loaded", function(){
