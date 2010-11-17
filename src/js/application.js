@@ -20,8 +20,9 @@ var SearchTagDto = Class.create({
 
 var application;
 var Application = Class.create({
-	initialize : function(urlService){
+	initialize : function(urlService, cryptor){
 		this._urlService = urlService;
+		this._cryptor = cryptor
 		this._addExtensions();
 		this._hookEvents();
 	},
@@ -89,19 +90,17 @@ var Application = Class.create({
 		chrome.tabs.create({"url":url, "selected":false});
 	},
 	_export : function(){
+		var that = this;
 		this._urlService.export(function(exportSql){
-			exportOutput.value = exportSql;
+			exportOutput.value = that._cryptor.encrypt(exportSql);
 		});
 	},
 	_import : function(){
-		this._urlService.import(importInput.value);
+		this._urlService.import(this._cryptor.decrypt(importInput.value));
 	},
 });
 
 function loadApplication(){
-	var dao = new Dao();
-	var tinyUrl = new TinyUrl();
-	var urlService = new UrlService(tinyUrl,dao);
-	application = new Application(urlService);
+	application = new Application(new UrlService(new TinyUrl(),new Dao()), new Cryptor());
 	application.populateValues();
 }
