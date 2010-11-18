@@ -4,5 +4,4 @@ src\js\thirdparty\tabber.js
 src\js\dao.js
 src\js\urlService.js
 src\js\tinyUrl.js
-src\js\cryptor.js
 src\js\application.js

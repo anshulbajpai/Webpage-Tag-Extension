@@ -6,7 +6,6 @@
 	<script type="text/javascript" language="javascript" src="../js/dao.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/urlService.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/tinyUrl.js"></script>
-	<script type="text/javascript" language="javascript" src="../js/cryptor.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/application.js"></script>
 	<link rel=stylesheet type="text/css" href="../css/app.css"  />
 	<link rel=stylesheet type="text/css" href="../css/thirdparty/tabber.css"  />
@@ -21,7 +20,7 @@
 					<div class="row">
 						<span>Tags <input type="text" id="tagsInput" placeholder="enter comma seperated tags" maxlength="75" class="textbox"/></span>
 					</div>
-					<div class="row"><input type="submit" id="submitTagsButton" class="button" value="Tag this"/></div>
+					<div class="row"><input type="button" id="submitTagsButton" class="button" value="Tag this"/></div>
 				</div>
 			</div>
 			<div class="tabbertab" title="Search">
@@ -29,7 +28,7 @@
 					<div class="row">
 						<span>Tags <input type="text" id="searchInputTags" placeholder="enter comma seperated tags to search" maxlength="75" class="textbox"/></span>
 					</div>
-					<div class="row"><input type="submit" id="searchButton" class="button" value="Search"/></div>
+					<div class="row"><input type="button" id="searchButton" class="button" value="Search"/></div>
 					<div class="row"><div id="searchResults"></div></div>
 				</div>
 			</div>
@@ -37,14 +36,14 @@
 				<div class="container">
 					<div class="row">
 						<span>
-							<input type="submit" id="exportButton" value="Export Tags"/>
+							<input type="button" id="exportButton" value="Export Tags"/>
 							<input type="text" id="exportOutput" class="textbox"/> 
 						</span>
 					</div>
 					<div class="row">
 						<span>
 							<input type="text" id="importInput" placeholder="enter sql script" class="textbox"/> 
-							<input type="submit" id="importButton" value="Import Tags"/>
+							<input type="button" id="importButton" value="Import Tags"/>
 						</span>
 					</div>
 				</div>

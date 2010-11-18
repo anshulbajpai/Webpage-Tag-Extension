@@ -20,9 +20,8 @@ var SearchTagDto = Class.create({
 
 var application;
 var Application = Class.create({
-	initialize : function(urlService, cryptor){
+	initialize : function(urlService){
 		this._urlService = urlService;
-		this._cryptor = cryptor
 		this._addExtensions();
 		this._hookEvents();
 	},
@@ -92,15 +91,15 @@ var Application = Class.create({
 	_export : function(){
 		var that = this;
 		this._urlService.export(function(exportSql){
-			exportOutput.value = that._cryptor.encrypt(exportSql);
+			exportOutput.value = exportSql;
 		});
 	},
 	_import : function(){
-		this._urlService.import(this._cryptor.decrypt(importInput.value));
+		this._urlService.import(importInput.value);
 	},
 });
 
 function loadApplication(){
-	application = new Application(new UrlService(new TinyUrl(),new Dao()), new Cryptor());
+	application = new Application(new UrlService(new TinyUrl(),new Dao()));
 	application.populateValues();
 }
