@@ -95,18 +95,15 @@ var Application = Class.create({
 		var tagsTemplate = '<div class="tags">Tags : {0} </div>';
 		var resultSet = "";
 		searchTagsDto.each(function(searchTagDto, index){
-				var url = urlTemplate.replace(/\{0\}/gi,searchTagDto.url);
-				var description = descriptionTemplate.replace(/\{0\}/gi,searchTagDto.description);
-				var tags = tagsTemplate.replace(/\{0\}/gi,searchTagDto.matchingTags);
-				resultSet += setTemplate.replace(/\{0\}/gi,that._getSetClass(index)).replace(/\{1\}/gi,url).replace(/\{2\}/gi,description).replace(/\{3\}/gi,tags);
+				resultSet += setTemplate.replace(/\{0\}/gi,that._getSetClass(index))
+					.replace(/\{1\}/gi,urlTemplate.replace(/\{0\}/gi,searchTagDto.url))
+					.replace(/\{2\}/gi,descriptionTemplate.replace(/\{0\}/gi,searchTagDto.description))
+					.replace(/\{3\}/gi,tagsTemplate.replace(/\{0\}/gi,searchTagDto.matchingTags));
 		});
 		searchResults.innerHTML = resultSet;
 	},
 	_getSetClass : function(index){
-		if(index%2==0)
-			return "set1";
-		else
-			return "set2";
+		return index%2==0 ? "set1" : "set2"
 	},
 	openTab : function(url){
 		chrome.tabs.create({"url":url, "selected":false});
