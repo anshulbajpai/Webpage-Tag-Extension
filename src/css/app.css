@@ -21,3 +21,20 @@ body{
 #searchButton{
 	margin-left:14em;
 }
+.tablerow{
+	width: 570px;
+	margin-left: auto;
+	margin-right: auto;
+}
+.col1, .col2{
+	float: left;
+	height: 35px;
+	width: 150px;
+	padding: 10px;
+}
+.col1{
+	background: #eee;
+}
+.col2{
+	background: #eec;
+}
