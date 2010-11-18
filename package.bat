@@ -1,1 +1,1 @@
-C:\Users\abajpai\AppData\Local\Google\Chrome\Application\chrome.exe --pack-extension=C:\Users\abajpai\desktop\tagging\src
+C:\Users\abajpai\AppData\Local\Google\Chrome\Application\chrome.exe --pack-extension=%CD%\src
