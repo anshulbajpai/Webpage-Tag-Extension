@@ -21,20 +21,23 @@ body{
 #searchButton{
 	margin-left:14em;
 }
-.tablerow{
-	width: 570px;
-	margin-left: auto;
-	margin-right: auto;
+.set1, .set2{
+	width: 480px;
+	margin-left: 4px;
+	padding : 5px;
 }
-.col1, .col2{
-	float: left;
-	height: 35px;
-	width: 150px;
-	padding: 10px;
+.set1{
+	background: #838b40;
 }
-.col1{
-	background: #eee;
+.set2{
+	background: #99528A;
 }
-.col2{
-	background: #eec;
+.url{
+	color: black;
+}
+.description{
+	color: black;
+}
+.tags{
+	color: black;
 }

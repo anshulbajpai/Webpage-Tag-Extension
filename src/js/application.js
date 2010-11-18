@@ -88,15 +88,25 @@ var Application = Class.create({
 		searchResults.innerHTML = errorMessage;
 	},
 	_renderResult : function(searchTagsDto){
-		var tableHeader = '<table><tr><th>Url</th><th>Description</th><th>Matching Tags</th></tr>';
-		var tableFooter = '</table>';
-		var resultRowTemplate = '<tr><td><a href="{0}" onclick="application.openTab(\'{0}\')">{0}</a></td><td>{1}</td><td>{2}</td></tr>';
-		var resultRows = "";
-		searchTagsDto.each(function(searchTagDto){
-			var template = resultRowTemplate;
-			resultRows += template.replace(/\{0\}/gi,searchTagDto.url).replace(/\{1\}/gi,searchTagDto.description).replace(/\{2\}/gi,searchTagDto.matchingTags);
+		var that = this;
+		var setTemplate = '<div class="{0}">{1}{2}{3}</div>';	
+		var urlTemplate = '<div class="url">Url : <a href="{0}" onclick="application.openTab(\'{0}\')">{0}</a> </div>';
+		var descriptionTemplate = '<div class="description">Description : {0} </div>';
+		var tagsTemplate = '<div class="tags">Tags : {0} </div>';
+		var resultSet = "";
+		searchTagsDto.each(function(searchTagDto, index){
+				var url = urlTemplate.replace(/\{0\}/gi,searchTagDto.url);
+				var description = descriptionTemplate.replace(/\{0\}/gi,searchTagDto.description);
+				var tags = tagsTemplate.replace(/\{0\}/gi,searchTagDto.matchingTags);
+				resultSet += setTemplate.replace(/\{0\}/gi,that._getSetClass(index)).replace(/\{1\}/gi,url).replace(/\{2\}/gi,description).replace(/\{3\}/gi,tags);
 		});
-		searchResults.innerHTML = tableHeader + resultRows + tableFooter;
+		searchResults.innerHTML = resultSet;
+	},
+	_getSetClass : function(index){
+		if(index%2==0)
+			return "set1";
+		else
+			return "set2";
 	},
 	openTab : function(url){
 		chrome.tabs.create({"url":url, "selected":false});
