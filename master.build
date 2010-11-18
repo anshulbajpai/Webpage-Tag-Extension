@@ -1,11 +1,7 @@
 <?xml version="1.0"?>
 <project name="master" basedir=".">
-	<target name="package" depends="minify"/>
-	<target name="minify">
-		<exec program="java" commandline="-jar lib\JsCombine.jar jsFileList.txt one.js" />
-		<exec program="minify.bat" />
-	</target>
+	<target name="package" depends="create-package"/>
 	<target name="create-package">
-		<exec program="C:\Users\abajpai\AppData\Local\Google\Chrome\Application\chrome.exe" commandline="--pack-extension=.\src --pack-extension-key=.\ext.pem" />
+		<exec program="C:\Users\abajpai\AppData\Local\Google\Chrome\Application\chrome.exe" commandline="--pack-extension=.\src" />
 	</target>
 </project>

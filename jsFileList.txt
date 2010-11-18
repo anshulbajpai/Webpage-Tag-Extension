@@ -1,7 +1,0 @@
-src\js\thirdparty\prototype.js
-src\js\thirdparty\jsaes.js
-src\js\thirdparty\tabber.js
-src\js\dao.js
-src\js\urlService.js
-src\js\tinyUrl.js
-src\js\application.js
