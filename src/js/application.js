@@ -27,19 +27,19 @@ var Application = Class.create({
 	},
 	_hookEvents : function(){
 		var that = this;
-		submitTagsButton.observe('click',function(event){
+		submitTagsButton.observe('click',function(){
 			that._saveTags(that._url);
 		});
-		searchButton.observe('click',function(event){
+		searchButton.observe('click',function(){
 			that._searchTags();
 		});
-		clearButton.observe('click',function(event){
+		clearButton.observe('click',function(){
 			that._clearTags();
 		});
-		exportButton.observe('click',function(event){
+		exportButton.observe('click',function(){
 			that._export();
 		});
-		importButton.observe('click',function(event){
+		importButton.observe('click',function(){
 			that._import();
 		});
 	},
@@ -82,30 +82,52 @@ var Application = Class.create({
 	},
 	_clearTags : function(){
 		searchInputTags.value = "";
-		searchResults.innerHTML = "";
+		this._emptySearchResults();
 	},
 	_showError : function(errorMessage){
-		searchResults.innerHTML = errorMessage;
+		searchResults.update(errorMessage);
+	},
+	_emptySearchResults : function(){
+		searchResults.update('');
 	},
 	_renderResult : function(searchTagsDto){
 		var that = this;
-		var setTemplate = '<div class="{0}">{1}{2}{3}</div>';	
-		var urlTemplate = '<div class="url">Url : <a href="{0}" onclick="application.openTab(\'{0}\')">{0}</a> </div>';
-		var descriptionTemplate = '<div class="description">Description : {0} </div>';
-		var tagsTemplate = '<div class="tags">Tags : {0} </div>';
-		var resultSet = "";
+		this._emptySearchResults();
 		searchTagsDto.each(function(searchTagDto, index){
-				resultSet += setTemplate.replace(/\{0\}/gi,that._getSetClass(index))
-					.replace(/\{1\}/gi,urlTemplate.replace(/\{0\}/gi,searchTagDto.url))
-					.replace(/\{2\}/gi,descriptionTemplate.replace(/\{0\}/gi,searchTagDto.description))
-					.replace(/\{3\}/gi,tagsTemplate.replace(/\{0\}/gi,searchTagDto.matchingTags));
+			searchResults.insert(that._createSetElement(searchTagDto, index));
 		});
-		searchResults.innerHTML = resultSet;
+	},
+	_createSetElement : function(searchTagDto, index){
+		return new Element('div', {class : this._getSetClass(index)})
+		.insert(this._createUrlElement(searchTagDto.url))
+		.insert(this._createDescriptionElement(searchTagDto.description))
+		.insert(this._createTagsElement(searchTagDto.matchingTags))
+	},
+	_createUrlElement : function(url){
+		return this._div('url').insert(this._label('Url : ')).insert(this._link(url));
+	},
+	_createDescriptionElement : function(description){
+		return this._div('description').insert(this._label('Description : ' + description));
+	},
+	_createTagsElement : function(tags){
+		return this._div('tags').insert(this._label('Tags : ' + tags));
+	},
+	_link : function(url){
+		var that = this;
+		return new Element('a',{href : url}).update(url).observe('click', function(){
+			that._openTab(url);
+		});
+	},
+	_div : function(class){
+		return new Element('div',{class : class});
+	},
+	_label : function(content){
+		return new Element('label').update(content);
 	},
 	_getSetClass : function(index){
 		return index%2==0 ? "set1" : "set2"
 	},
-	openTab : function(url){
+	_openTab : function(url){
 		chrome.tabs.create({"url":url, "selected":false});
 	},
 	_export : function(){
