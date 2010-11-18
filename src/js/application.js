@@ -33,6 +33,9 @@ var Application = Class.create({
 		searchButton.observe('click',function(event){
 			that._searchTags();
 		});
+		clearButton.observe('click',function(event){
+			that._clearTags();
+		});
 		exportButton.observe('click',function(event){
 			that._export();
 		});
@@ -70,6 +73,10 @@ var Application = Class.create({
 			else
 				that._showNoResults();
 		});
+	},
+	_clearTags : function(){
+		searchInputTags.value = "";
+		searchResults.innerHTML = "";
 	},
 	_showNoResults : function(){
 		searchResults.innerHTML = "Sorry, no matching urls found!!"
