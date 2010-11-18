@@ -2,40 +2,52 @@
 <head>
 	<script type="text/javascript" language="javascript" src="../js/thirdparty/prototype.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/thirdparty/jsaes.js"></script>
+	<script type="text/javascript" language="javascript" src="../js/thirdparty/tabber.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/dao.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/urlService.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/tinyUrl.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/cryptor.js"></script>
 	<script type="text/javascript" language="javascript" src="../js/application.js"></script>
 	<link rel=stylesheet type="text/css" href="../css/app.css"  />
+	<link rel=stylesheet type="text/css" href="../css/thirdparty/tabber.css"  />
 </head>
-	<body style="width:43em">
-		<div>
-			<span class="rightcontainer"> 
-				Description <input type="text" id="descriptionInput" placeholder="enter some description" maxlength="50" class="textbox"/>
-				Tags  	   <input type="text" id="tagsInput" placeholder="enter comma seperated tags" maxlength="50" class="textbox"/> 
-				<input type="submit" id="submitTagsButton" class="button" value="Tag this"/>
-			</span>
-		</div>
-		<div>
-			<span class="rightcontainer">
-				<input type="text" id="searchInputTags" placeholder="enter comma seperated tags to search" maxlength="50" class="textbox"/>
-				<input type="submit" id="searchButton" class="button" value="Search"/>
-			</span>
-		</div>
-		<div id="searchResults"></div>
-		<div class="leftContainer">
-			<div>
-				<span>
-					<input type="submit" id="exportButton" value="Export Tags"/>
-					<input type="text" id="exportOutput" class="longtextbox"/> 
-				</span>
+	<body>
+		<div class="tabber">
+			<div class="tabbertab tabbertabdefault" title="Tagging">
+				<div class="container">
+					<div class="row">
+						<span>Description <input type="text" id="descriptionInput" placeholder="enter some description" maxlength="75" class="textbox"/></span>
+					</div>
+					<div class="row">
+						<span>Tags <input type="text" id="tagsInput" placeholder="enter comma seperated tags" maxlength="75" class="textbox"/></span>
+					</div>
+					<div class="row"><input type="submit" id="submitTagsButton" class="button" value="Tag this"/></div>
+				</div>
 			</div>
-			<div>
-				<span>
-					<input type="text" id="importInput" placeholder="enter sql script" class="longtextbox"/> 
-					<input type="submit" id="importButton" value="Import Tags"/>
-				</span>
+			<div class="tabbertab" title="Search">
+				<div class="container">
+					<div class="row">
+						<span>Tags <input type="text" id="searchInputTags" placeholder="enter comma seperated tags to search" maxlength="75" class="textbox"/></span>
+					</div>
+					<div class="row"><input type="submit" id="searchButton" class="button" value="Search"/></div>
+					<div class="row"><div id="searchResults"></div></div>
+				</div>
+			</div>
+			<div class="tabbertab" title="Advanced">
+				<div class="container">
+					<div class="row">
+						<span>
+							<input type="submit" id="exportButton" value="Export Tags"/>
+							<input type="text" id="exportOutput" class="textbox"/> 
+						</span>
+					</div>
+					<div class="row">
+						<span>
+							<input type="text" id="importInput" placeholder="enter sql script" class="textbox"/> 
+							<input type="submit" id="importButton" value="Import Tags"/>
+						</span>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>

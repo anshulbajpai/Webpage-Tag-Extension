@@ -1,19 +1,23 @@
-.textbox{
-	width : 20em;
-}
-.longtextbox{
-	width : 46em;
-}
 body{
 	background: #cadef4;
+	width : 33em;
 }
-.rightcontainer {
-	float: right;
+.container{
+	padding-left : 10px;
 }
-.leftContainer{
-	float : left;
-	padding-left: 10px;
+.row{
+	padding-top : 10px;
+}
+.textbox{
+	width : 32em;
+	float : right;
 }
 .button{
 	width : 5em;
+}
+#submitTagsButton{
+	margin-left:14em;
+}
+#searchButton{
+	margin-left:14em;
 }
