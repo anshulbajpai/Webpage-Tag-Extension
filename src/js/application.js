@@ -67,19 +67,25 @@ var Application = Class.create({
 	},
 	_searchTags : function(){
 		var that = this;
-		this._urlService.searchByTags(searchInputTags.strippedTagArray(),function(searchTagsDto){
-			if(searchTagsDto.length > 0)
-				that._renderResult(searchTagsDto);
-			else
-				that._showNoResults();
-		});
+		var tagArray = searchInputTags.strippedTagArray();
+		if(tagArray.length > 0){
+			this._urlService.searchByTags(tagArray,function(searchTagsDto){
+				if(searchTagsDto.length > 0)
+					that._renderResult(searchTagsDto);
+				else
+					that._showError("Sorry, no matching urls found!!");
+			});
+		}
+		else{
+			this._showError("Please input some value for tag.");
+		}
 	},
 	_clearTags : function(){
 		searchInputTags.value = "";
 		searchResults.innerHTML = "";
 	},
-	_showNoResults : function(){
-		searchResults.innerHTML = "Sorry, no matching urls found!!"
+	_showError : function(errorMessage){
+		searchResults.innerHTML = errorMessage;
 	},
 	_renderResult : function(searchTagsDto){
 		var tableHeader = '<table><tr><th>Url</th><th>Description</th><th>Matching Tags</th></tr>';

@@ -8,7 +8,7 @@ var Dao = Class.create({
 	},
 	findUrl : function(url, onSelect){
 		this._db.transaction(function (tx) {
-			tx.executeSql('SELECT u.id, u.description,t.tag from urls u join tags t on u.id = t.urlid where url = ?', [url], function (tx, result){
+			tx.executeSql('SELECT u.id, u.description,t.tag from urls u left outer join tags t on u.id = t.urlid where url = ?', [url], function (tx, result){
 				var findUrlDtos = new Array();
 				for(var i =0; i < result.rows.length; i++){	
 					var row = result.rows.item(i);
@@ -47,12 +47,14 @@ var Dao = Class.create({
 	},
 	searchByUrl : function(url,onSearch){
 		this._db.transaction(function (tx) {
-			tx.executeSql('select u.description, t.tag from urls u join tags t on u.id = t.urlid where url = ?',[url],function(tx,result){
+			tx.executeSql('select u.description, t.tag from urls u left outer join tags t on u.id = t.urlid where url = ?',[url],function(tx,result){
 				if(result.rows.length > 0){
 					var description = result.rows.item(0).description;
 					var tags = "";
 					for(var i =0; i < result.rows.length; i++){
-						tags += result.rows.item(i).tag + ",";
+						var tag = result.rows.item(i).tag;
+						if(tag)
+							tags += tag + ",";
 					}
 					onSearch(result.rows.item(0).description,tags.substr(0,tags.lastIndexOf(",")));
 				}
@@ -70,11 +72,16 @@ var Dao = Class.create({
 	_getTagsForUrl : function(urlsData, onSearch){
 		var that = this;
 		var urlIds = this._createUrlsIds(urlsData);
-		this._db.transaction(function (tx) {
-			tx.executeSql(that._getTagForUrlQuery(urlIds.length),urlIds,function(tx,result){
-				onSearch(that._createSearchTagsDato(result.rows,urlsData));
+		if(urlIds.length > 0){
+			this._db.transaction(function (tx) {
+				tx.executeSql(that._getTagForUrlQuery(urlIds.length),urlIds,function(tx,result){
+					onSearch(that._createSearchTagsDato(result.rows,urlsData));
+				});
 			});
-		});
+		}
+		else{
+			onSearch(new Array())
+		}
 	},
 	_createUrlsIds : function(urlsData){
 		var urlIds = new Array();
@@ -108,7 +115,7 @@ var Dao = Class.create({
 		return this._createInQuery('select urlid, tag from tags where urlid in (', urlCount);
 	},
 	_searchTagQuery : function(tagsCount){
-		return this._createInQuery('select distinct u.id, u.url, u.description from urls u join tags t on u.id = t.urlid where t.tag in (', tagsCount);
+		return this._createInQuery('select distinct u.id, u.url, u.description from urls u left outer join tags t on u.id = t.urlid where t.tag in (', tagsCount);
 	},
 	_createInQuery : function(baseQuery, count){
 		for(var i = 0; i < count; i++){
