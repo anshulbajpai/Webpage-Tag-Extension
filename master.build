@@ -1,7 +1,0 @@
-<?xml version="1.0"?>
-<project name="master" basedir=".">
-	<target name="package" depends="create-package"/>
-	<target name="create-package">
-		<exec program="C:\Users\abajpai\AppData\Local\Google\Chrome\Application\chrome.exe" commandline="--pack-extension=.\src" />
-	</target>
-</project>
