@@ -131,7 +131,7 @@ var Dao = Class.create({
 	},
 	_exportTable : function(table, exportSql, onExport){
 		this._db.transaction(function (tx) {
-			tx.executeSql('select * from urls',[],function(tx,result){
+			tx.executeSql('select * from ' + table,[],function(tx,result){
 				for (var i = 0; i < result.rows.length; i++) {
 					var row = result.rows.item(i);
 					var fields = [];
