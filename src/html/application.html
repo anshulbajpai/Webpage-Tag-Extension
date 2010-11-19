@@ -14,10 +14,10 @@
 			<div class="tabbertab tabbertabdefault" title="Tagging">
 				<div class="container">
 					<div class="row">
-						<span>Description <input type="text" id="descriptionInput" placeholder="enter some description" maxlength="75" class="textbox"/></span>
+						<span> <label class="label">Description </label> <input type="text" id="descriptionInput" placeholder="enter some description" maxlength="75" class="textbox"/></span>
 					</div>
 					<div class="row">
-						<span>Tags <input type="text" id="tagsInput" placeholder="enter comma seperated tags" maxlength="75" class="textbox"/></span>
+						<span><label class="label">Tags </label><input type="text" id="tagsInput" placeholder="enter comma seperated tags" maxlength="75" class="textbox"/></span>
 					</div>
 					<div class="row"><input type="button" id="submitTagsButton" class="button" value="Tag this"/></div>
 				</div>
@@ -25,7 +25,7 @@
 			<div class="tabbertab" title="Search">
 				<div class="container">
 					<div class="row">
-						<span>Tags <input type="text" id="searchInputTags" placeholder="enter comma seperated tags to search" maxlength="75" class="textbox"/></span>
+						<span><label class="label">Tags</label> <input type="text" id="searchInputTags" placeholder="enter comma seperated tags to search" maxlength="75" class="textbox"/></span>
 					</div>
 					<div class="row">
 						<input type="button" id="searchButton" class="button" value="Search"/>
@@ -38,14 +38,14 @@
 				<div class="container">
 					<div class="row">
 						<span>
-							<input type="button" id="exportButton" value="Export Tags"/>
+							<input type="button" id="exportButton" class="button" value="Export Tags"/>
 							<input type="text" id="exportOutput" class="textbox"/> 
 						</span>
 					</div>
 					<div class="row">
 						<span>
 							<input type="text" id="importInput" placeholder="enter sql script" class="textbox"/> 
-							<input type="button" id="importButton" value="Import Tags"/>
+							<input type="button" id="importButton" class="button" value="Import Tags"/>
 						</span>
 					</div>
 				</div>

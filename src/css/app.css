@@ -1,6 +1,7 @@
 body{
-	background: #cadef4;
+	background: #333;
 	width : 33em;
+	font-family: Arial, 'Helvetica Neue', sans-serif;
 }
 .container{
 	padding-left : 10px;
@@ -11,37 +12,76 @@ body{
 .textbox{
 	width : 32em;
 	float : right;
+	background: #FFC;
+}
+.label, .button{
+	border-bottom-left-radius: 5px 5px;
+	border-bottom-right-radius: 5px 5px;
+	border-top-left-radius: 5px 5px;
+	border-top-right-radius: 5px 5px;
+	color: white;
+	font-size: 12px;
+	font-weight: bold;
+	line-height: 25px;
+	padding-right: 10px;
+	padding-left: 10px;
+	text-align: center;
+}
+.label{
+	background-color: #14698e;
+	border: 1px solid #14698e;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	text-align: center;
 }
 .button{
-	width : 5em;
+	background-color: #A4C045;
+	border: 1px solid #A4C045;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	width : 7em;
 }
 #submitTagsButton{
-	margin-left:14em;
+	margin-left: 14em;
 }
 #searchButton{
-	margin-left:14em;
+	margin-left:13em;
 }
 .set1, .set2{
 	width: 471px;
 	margin-left: 4px;
 	padding : 5px;
+	border-bottom : 1px dotted #999;
+	border-top : 1px dotted #999;
+	border-bottom-left-radius: 5px 5px;
+	border-bottom-right-radius: 5px 5px;
+	border-top-left-radius: 5px 5px;
+	border-top-right-radius: 5px 5px;
+	border-collapse : collapse;
 }
 .set1{
-	background: #838b40;
+	background: #F0F1F7;
 }
 .set2{
-	background: #99528A;
+	background: #FAFAFA;
 }
 .url{
-	color: black;
+	color: #0084B4;
+	text-decoration: none;
+	font-size: 16px;
 }
 .description{
-	color: black;
+	color: #999;
+	word-wrap: break-word;
+	font-size: 14px;
 }
 .tags{
-	color: black;
+	color: #333;
+	font-weight: bold;
+	word-wrap: break-word;
+	font-size: 20px;
 }
 .results{
 	max-height : 10em;
-	overflow : auto;
+	overflow-y : auto;
 }

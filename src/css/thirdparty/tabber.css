@@ -43,17 +43,18 @@ ul.tabbernav li a
  margin-left: 3px;
  border: 1px solid #778;
  border-bottom: none;
- background: #DDE;
+ background: #FF99CC;
  text-decoration: none;
+ border-top-left-radius: 10px 10px;
 }
 
-ul.tabbernav li a:link { color: #448; }
+ul.tabbernav li a:link { color: #brown; }
 ul.tabbernav li a:visited { color: #667; }
 
 ul.tabbernav li a:hover
 {
- color: #000;
- background: #AAE;
+ color: black;
+ background: #FF99CC;
  border-color: #227;
 }
 

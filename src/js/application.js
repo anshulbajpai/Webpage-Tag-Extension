@@ -7,7 +7,7 @@ var Tags = {
 				tags.push(strippedTag.toLowerCase());
 		})
 		return tags;
-	},
+	}
 };
 
 var SearchTagDto = Class.create({
@@ -15,7 +15,7 @@ var SearchTagDto = Class.create({
 		this.url = url;
 		this.description = description;
 		this.matchingTags = matchingTags;
-	},
+	}
 });
 
 var application;
@@ -104,25 +104,25 @@ var Application = Class.create({
 		.insert(this._createTagsElement(searchTagDto.matchingTags))
 	},
 	_createUrlElement : function(url){
-		return this._div('url').insert(this._label('Url : ')).insert(this._link(url));
+		return this._div().insert(this._link(url, 'url'));
 	},
 	_createDescriptionElement : function(description){
-		return this._div('description').insert(this._label('Description : ' + description));
+		return this._div().insert(this._label(description, 'description'));
 	},
 	_createTagsElement : function(tags){
-		return this._div('tags').insert(this._label('Tags : ' + tags));
+		return this._div().insert(this._label(tags, 'tags'));
 	},
-	_link : function(url){
+	_link : function(url, class){
 		var that = this;
-		return new Element('a',{href : url}).update(url).observe('click', function(){
+		return new Element('a',{href : url, class : class}).update(url).observe('click', function(){
 			that._openTab(url);
 		});
 	},
-	_div : function(class){
-		return new Element('div',{class : class});
+	_div : function(){
+		return new Element('div');
 	},
-	_label : function(content){
-		return new Element('label').update(content);
+	_label : function(content, class){
+		return new Element('label', {class : class}).update(content);
 	},
 	_getSetClass : function(index){
 		return index%2==0 ? "set1" : "set2"
