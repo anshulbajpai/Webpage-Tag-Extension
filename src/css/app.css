@@ -9,6 +9,9 @@ body{
 .row{
 	padding-top : 10px;
 }
+.error{
+	color : #FFC;
+}
 .textbox{
 	width : 32em;
 	float : right;

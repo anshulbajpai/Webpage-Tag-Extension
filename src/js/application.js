@@ -86,9 +86,11 @@ var Application = Class.create({
 	},
 	_showError : function(errorMessage){
 		searchResults.update(errorMessage);
+		searchResults.addClassName('error');
 	},
 	_emptySearchResults : function(){
 		searchResults.update('');
+		searchResults.removeClassName('error');
 	},
 	_renderResult : function(searchTagsDto){
 		var that = this;
