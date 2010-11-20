@@ -67,7 +67,22 @@ var UrlService = Class.create({
 		this._dao.searchByUrl(url,onSearch);
 	},
 	searchByTags : function(tags,onSearch){
-		this._dao.searchByTags(tags,onSearch);
+		var that = this;
+		this._dao.searchByTags(tags,function(searchTagsDto){
+			var sortedSearchTagsDto = searchTagsDto.sortBy(function(searchTagDto){
+				return that._comparator(searchTagDto,tags);
+			});			
+			onSearch(sortedSearchTagsDto);
+		});
+	},
+	_comparator : function(searchTagDto, tags){
+		var allMatchingTags = searchTagDto.matchingTags.split(",");
+		var count = allMatchingTags.length;
+		allMatchingTags.each(function(matchingTag){
+			if(tags.member(matchingTag))
+				count--;
+		});
+		return count;
 	},
 	shortenUrl : function(url, afterShorten){
 		this._tinyUrl.shorten(url,afterShorten);
