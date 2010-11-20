@@ -1,1 +1,1 @@
-%APPDATA%\..\Local\Google\Chrome\Application\chrome.exe --pack-extension=%CD%\src
+"%APPDATA%\..\Local\Google\Chrome\Application\chrome.exe" --pack-extension="%CD%\src"
