@@ -77,7 +77,7 @@ var UrlService = Class.create({
 	},
 	_comparator : function(searchTagDto, tags){
 		var allMatchingTags = searchTagDto.matchingTags.split(",");
-		var count = allMatchingTags.length;
+		var count = tags.length;
 		allMatchingTags.each(function(matchingTag){
 			if(tags.member(matchingTag))
 				count--;
